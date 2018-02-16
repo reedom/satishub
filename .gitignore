@@ -6,7 +6,7 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -97,3 +97,8 @@ fabric.properties
 *.out
 
 
+### project
+
+/.envrc
+/vendor/
+/bin/

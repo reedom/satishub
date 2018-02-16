@@ -1,0 +1,58 @@
+{
+  "object_kind": "push",
+  "before": "49e5bed8be61c9de08a15b1bd1e05ec5769eff45",
+  "after": "1dc3973a194c8dbc105480d33805223cb58d6d2d",
+  "ref": "refs/heads/master",
+  "checkout_sha": "1dc3973a194c8dbc105480d33805223cb58d6d2d",
+  "message": null,
+  "user_id": 2,
+  "user_name": "me",
+  "user_email": "me@example.com",
+  "user_avatar": "https://secure.gravatar.com/avatar/",
+  "project_id": 97,
+  "project": {
+    "name": "sample-repository",
+    "description": "",
+    "web_url": "https://gitlab.example.com/all/sample-repository",
+    "avatar_url": null,
+    "git_ssh_url": "ssh://git@gitlab.example.com/all/sample-repository.git",
+    "git_http_url": "https://gitlab.example.com/all/sample-repository.git",
+    "namespace": "all",
+    "visibility_level": 0,
+    "path_with_namespace": "all/sample-repository",
+    "default_branch": "master",
+    "homepage": "https://gitlab.example.com/all/sample-repository",
+    "url": "ssh://git@gitlab.example.com/all/sample-repository.git",
+    "ssh_url": "ssh://git@gitlab.example.com/all/sample-repository.git",
+    "http_url": "https://gitlab.example.com/all/sample-repository.git"
+  },
+  "commits": [
+    {
+      "id": "1dc3973a194c8dbc105480d33805223cb58d6d2d",
+      "message": "Merge branch 'release/0.1.1'\n",
+      "timestamp": "2017-11-09T18:18:06-08:00",
+      "url": "https://gitlab.example.com/all/sample-repository/commit/1dc3973a194c8dbc105480d33805223cb58d6d2d",
+      "author": {
+        "name": "me",
+        "email": "me@example.com"
+      },
+      "added": [],
+      "modified": [
+        "CHANGELOG.md",
+        "README.md",
+        "Makefile"
+      ],
+      "removed": []
+    }
+  ],
+  "total_commits_count": 1,
+  "repository": {
+    "name": "sample-repository",
+    "url": "ssh://git@gitlab.example.com/all/sample-repository.git",
+    "description": "",
+    "homepage": "https://gitlab.example.com/all/sample-repository",
+    "git_http_url": "https://gitlab.example.com/all/sample-repository.git",
+    "git_ssh_url": "ssh://git@gitlab.example.com/all/sample-repository.git",
+    "visibility_level": 0
+  }
+}

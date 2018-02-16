@@ -1,0 +1,14 @@
+\#*
+*~
+/.git/
+/.idea/
+/.DS_Store
+/_vendor*/
+/bin/
+/repo/
+/vendor/
+/.envrc
+/Dockerfile
+/LICENSE
+/Makefile
+/README.md*
