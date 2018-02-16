@@ -72,7 +72,7 @@ func NewService(param ServiceParam) Service {
 	}
 
 	if s.errLog == nil {
-		s.errLog = log.New(os.Stdout, "satis ERROR ", log.Ldate|log.Ltime)
+		s.errLog = log.New(os.Stdout, "satis ", log.Ldate|log.Ltime)
 	}
 	if s.stdLog == nil {
 		s.stdLog = log.New(os.Stdout, "satis ", log.Ldate|log.Ltime)
