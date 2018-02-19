@@ -85,25 +85,17 @@ var serveCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 
 		service := satis.NewService(satisParam)
-		go func() {
-			stream := service.Run(ctx)
-			for {
-				select {
-				case <-ctx.Done():
-					return
-				case result := <-stream:
-					if result.Error != nil {
-						logger.Printf("ERROR: %v", result.Error.Error())
-						continue
-					}
-					if debug {
-						fmt.Println("cmd done", result)
-					}
-				}
-			}
-		}()
 
 		server := api.NewServer(service, logger, satisParam.Debug)
+
+		go func() {
+			interrupt := make(chan os.Signal)
+			signal.Notify(interrupt, os.Interrupt)
+			select {
+			case <-interrupt:
+				cancel()
+			}
+		}()
 
 		errTLS := make(chan error)
 		if useTLS {
@@ -123,17 +115,33 @@ var serveCmd = &cobra.Command{
 			}()
 		}
 
-		interrupt := make(chan os.Signal)
-		signal.Notify(interrupt, os.Interrupt)
-		select {
-		case err := <-errTLS:
-			log.Println(err.Error())
-			cancel()
-		case err := <-errHTTP:
-			log.Println(err.Error())
-			cancel()
-		case <-interrupt:
-			cancel()
+		stream := service.Run(ctx)
+	loop:
+		for {
+			select {
+			case result, ok := <-stream:
+				if !ok {
+					cancel()
+					break loop
+				}
+				if result.Error != nil {
+					logger.Printf("ERROR: %v", result.Error.Error())
+					continue
+				}
+				if debug {
+					fmt.Println("cmd done", result)
+				}
+			case err := <-errTLS:
+				if err != nil {
+					logger.Println(err.Error())
+				}
+				cancel()
+			case err := <-errHTTP:
+				if err != nil {
+					logger.Println(err.Error())
+				}
+				cancel()
+			}
 		}
 
 		// wait for graceful shutdowns

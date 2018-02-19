@@ -110,8 +110,8 @@ func (s *service) Run(ctx context.Context) <-chan ServiceResult {
 				s.stdLog.Print("service close")
 			}
 			s.discardCommands()
-			close(result)
 			s.notifyService("satishub service exit!")
+			close(result)
 		}()
 
 		for {
