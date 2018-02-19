@@ -5,7 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/sns"
 )
 
-func notify(topicARN, message string) error {
+func Notify(topicARN, message string) error {
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 	}))

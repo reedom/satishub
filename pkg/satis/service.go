@@ -104,12 +104,14 @@ func (s *service) Run(ctx context.Context) <-chan ServiceResult {
 	result := make(chan ServiceResult)
 
 	go func() {
+		s.notifyService("satishub service start")
 		defer func() {
 			if s.debug {
 				s.stdLog.Print("service close")
 			}
 			s.discardCommands()
 			close(result)
+			s.notifyService("satishub service exit!")
 		}()
 
 		for {
@@ -195,7 +197,28 @@ func (s *service) notifyPartialBuild(info PackageInfo, msg string, serviceErr er
 	}
 
 	data, _ := json.Marshal(payload)
-	return notify(s.snsTopicARN, string(data))
+	return Notify(s.snsTopicARN, string(data))
+}
+
+type snsTopicService struct {
+	Event string `json:"type"`
+	Msg   string `json:"msg"`
+	Time  int64  `json:"time"`
+}
+
+func (s *service) notifyService(msg string) error {
+	if s.snsTopicARN == "" {
+		return nil
+	}
+
+	payload := snsTopicService{
+		Event: "service",
+		Msg:   msg,
+		Time:  time.Now().Unix(),
+	}
+
+	data, _ := json.Marshal(payload)
+	return Notify(s.snsTopicARN, string(data))
 }
 
 // Rebuild requests satis full rebuild.
