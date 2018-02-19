@@ -145,15 +145,21 @@ func (s *service) Run(ctx context.Context) <-chan ServiceResult {
 				if s.debug {
 					s.stdLog.Println("cmd partial build")
 				}
-				s.notifyPartialBuild(req.PackageInfo, "start", nil)
-				err := s.updatePackage(ctx, req.PackageInfo)
+				err := s.notifyPartialBuild(req.PackageInfo, "start", nil)
+				if err != nil {
+					s.errLog.Println("notify error", err.Error())
+				}
+				err = s.updatePackage(ctx, req.PackageInfo)
 				if err != nil {
 					s.notifyPartialBuild(req.PackageInfo, "error", err)
 					if err == context.DeadlineExceeded {
 						err = errors.Wrap(err, "satis command execution timeout")
 					}
 				} else {
-					s.notifyPartialBuild(req.PackageInfo, "completed", nil)
+					err = s.notifyPartialBuild(req.PackageInfo, "completed", nil)
+					if err != nil {
+						s.errLog.Println("notify error", err.Error())
+					}
 				}
 				r := ServiceResult{Error: err}
 				result <- r
